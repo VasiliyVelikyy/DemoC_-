@@ -1,0 +1,73 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+
+const double DEG_TO_RAD = 0.0174532925; 
+
+class Trigonometry {
+private:
+    double angle; // Угол в градусах
+
+public:
+    // Конструктор
+    Trigonometry(double angleDegrees) : angle(angleDegrees) {}
+
+    // Методы для вычисления тригонометрических функций
+    double getSin() const {
+        return sin(angle * DEG_TO_RAD); // Вычисляем синус в градусах
+    }
+
+    double getCos() const {
+        return cos(angle * DEG_TO_RAD); // Вычисляем косинус в градусах
+    }
+
+    double getTan() const {
+        double cosValue = cos(angle * M_PI / 180.0);
+        if (fabs(cosValue) < 1e-9) { // Проверка на деление на ноль
+            throw std::overflow_error("Тангенс не определен для данного угла.");
+        }
+        return tan(angle * DEG_TO_RAD); // Вычисляем тангенс в градусах
+    }
+
+    double getCot() const {
+        double sinValue = sin(angle * M_PI / 180.0);
+        if (fabs(sinValue) < 1e-9) { // Проверка на деление на ноль
+            throw std::overflow_error("Котангенс не определен для данного угла.");
+        }
+        return 1.0 / tan(angle * DEG_TO_RAD); // Вычисляем котангенс в градусах
+    }
+
+    // Метод для вывода данных в табличном виде
+    void printTable() const {
+        std::cout << std::fixed << std::setprecision(4);
+        std::cout << "\n+----------------+------------+------------+------------+------------+";
+        std::cout << "\n| Угол (градусы) |   Sin(x)   |   Cos(x)   |   Tan(x)   |   Cot(x)   |";
+        std::cout << "\n+----------------+------------+------------+------------+------------+";
+        std::cout << "\n| " << std::setw(14) << angle;
+        std::cout << " | " << std::setw(10) << getSin();
+        std::cout << " | " << std::setw(10) << getCos();
+        try {
+            std::cout << " | " << std::setw(10) << getTan();
+        } catch (const std::overflow_error &e) {
+            std::cout << " | " << std::setw(10) << "undefined";
+        }
+        try {
+            std::cout << " | " << std::setw(10) << getCot();
+        } catch (const std::overflow_error &e) {
+            std::cout << " | " << std::setw(10) << "undefined";
+        }
+        std::cout << " |\n+----------------+------------+------------+------------+------------+\n";
+    }
+};
+
+int main() {
+    double angle;
+    std::cout << "Введите угол в градусах: ";
+    std::cin >> angle;
+
+    Trigonometry trig(angle);
+    trig.printTable();
+
+    return 0;
+}

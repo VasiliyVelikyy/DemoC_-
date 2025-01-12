@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+// Определение класса Rectangle (Прямоугольник)
+class Rectangle {
+private:
+    // Координаты левого нижнего угла прямоугольника
+    int x, y;
+    // Ширина и высота прямоугольника
+    int width, height;
+
+public:
+    // Конструктор класса
+    Rectangle(int x0, int y0, int w, int h) : x(x0), y(y0), width(w), height(h) {}
+
+    // Метод для перемещения прямоугольника
+    void move(int dx, int dy) {
+        x += dx;
+        y += dy;
+    }
+
+    // Метод для изменения размеров прямоугольника
+    void resize(int newWidth, int newHeight) {
+        width = newWidth;
+        height = newHeight;
+    }
+
+    // Метод для вывода информации о прямоугольнике
+    void display() const {
+        cout << "Прямоугольник с координатами (" << x << ", " << y << "), "
+             << "шириной " << width << " и высотой " << height << endl;
+    }
+
+    // Метод для получения площади прямоугольника
+    int area() const {
+        return width * height;
+    }
+
+    // Метод для получения периметра прямоугольника
+    int perimeter() const {
+        return 2 * (width + height);
+    }
+};
+
+int main() {
+    // Создаем объект прямоугольника с координатами (0, 0), шириной 5 и высотой 10
+    Rectangle rect(0, 0, 5, 10);
+
+    // Отображаем информацию о прямоугольнике
+    rect.display();
+
+    // Перемещаем прямоугольник на (3, 4)
+    rect.move(3, 4);
+    cout << "После перемещения:" << endl;
+    rect.display();
+
+    // Изменяем размеры прямоугольника
+    rect.resize(8, 12);
+    cout << "После изменения размеров:" << endl;
+    rect.display();
+
+    // Выводим площадь и периметр прямоугольника
+    cout << "Площадь прямоугольника: " << rect.area() << endl;
+    cout << "Периметр прямоугольника: " << rect.perimeter() << endl;
+
+    return 0;
+}

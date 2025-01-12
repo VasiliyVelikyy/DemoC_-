@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+// Класс для монеты
+class Coin {
+public:
+    // Поле для хранения стоимости монеты в центах
+    int value;
+
+    // Конструктор для создания монеты с заданным номиналом
+    Coin(int v) : value(v) {}
+
+    // Метод для вывода информации о монете
+    void display() const {
+        cout << "Монета достоинством " << value << " цент(ов)" << endl;
+    }
+};
+
+// Класс для пересчета суммы в монеты
+class CoinCalculator {
+private:
+    int totalCents;
+
+public:
+    // Конструктор, принимающий общую сумму в центах
+    CoinCalculator(int cents) : totalCents(cents) {}
+
+    // Метод для вычисления эквивалентных монет
+    void calculate() {
+        // Количество монет каждого номинала
+        int quarters = totalCents / 25; // Количество монет по 25 центов
+        totalCents %= 25; // Оставшаяся сумма после извлечения монет по 25 центов
+
+        int dimes = totalCents / 10; // Количество монет по 10 центов
+        totalCents %= 10; // Оставшаяся сумма после извлечения монет по 10 центов
+
+        int nickels = totalCents / 5; // Количество монет по 5 центов
+        totalCents %= 5; // Оставшаяся сумма после извлечения монет по 5 центов
+
+        int pennies = totalCents; // Оставшаяся сумма в 1 цент
+
+        // Выводим количество монет каждого достоинства
+        cout << "Для указанной суммы нужно:" << endl;
+        if (quarters > 0) cout << "Монет по 25 центов: " << quarters << endl;
+        if (dimes > 0) cout << "Монет по 10 центов: " << dimes << endl;
+        if (nickels > 0) cout << "Монет по 5 центов: " << nickels << endl;
+        if (pennies > 0) cout << "Монет по 1 центу: " << pennies << endl;
+    }
+};
+
+int main() {
+    int cents;
+    cout << "Введите сумму в центах: ";
+    cin >> cents;
+
+    // Создаем динамический объект для пересчета суммы
+    CoinCalculator* calculator = new CoinCalculator(cents);
+
+    // Вычисляем эквивалентные монеты
+    calculator->calculate();
+
+    // Освобождаем память
+    delete calculator;
+
+    return 0;
+}

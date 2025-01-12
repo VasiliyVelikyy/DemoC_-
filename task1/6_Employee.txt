@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+
+// Класс для хранения данных о сотруднике
+class Employee {
+private:
+    std::string firstName; // Имя
+    std::string lastName;  // Фамилия
+    std::string middleName; // Отчество
+    int employeeID;        // Табельный номер
+    int workedHours;       // Отработанные часы
+    double hourlyRate;     // Почасовой тариф
+
+public:
+    // Конструктор
+    Employee(const std::string &firstName, const std::string &lastName, const std::string &middleName,
+             int employeeID, int workedHours, double hourlyRate)
+        : firstName(firstName), lastName(lastName), middleName(middleName),
+          employeeID(employeeID), workedHours(workedHours), hourlyRate(hourlyRate) {}
+
+    // Метод для вычисления заработной платы
+    double calculateSalary() const {
+        int overtimeHours = workedHours > 144 ? workedHours - 144 : 0;
+        int regularHours = workedHours - overtimeHours;
+        double regularPay = regularHours * hourlyRate;
+        double overtimePay = overtimeHours * hourlyRate * 2;
+        double grossSalary = regularPay + overtimePay;
+        return grossSalary * 0.88; // Вычет подоходного налога (12%)
+    }
+
+    // Метод для вывода информации о сотруднике
+    void printInfo() const {
+        std::cout << "Табельный номер: " << employeeID << '\n';
+        std::cout << "ФИО: " << lastName << " " << firstName << " " << middleName << '\n';
+        std::cout << "Отработанные часы: " << workedHours << "\n";
+        std::cout << "Почасовой тариф: " << hourlyRate << "\n";
+        std::cout << "Зарплата (после вычета налога): " << std::fixed << std::setprecision(2) << calculateSalary() << "\n";
+    }
+};
+
+int main() {
+    int numEmployees;
+    std::cout << "Введите количество сотрудников: ";
+    std::cin >> numEmployees;
+
+    std::vector<Employee> employees;
+
+    for (int i = 0; i < numEmployees; ++i) {
+        std::string firstName, lastName, middleName;
+        int employeeID, workedHours;
+        double hourlyRate;
+
+        std::cout << "\nВведите имя сотрудника: ";
+        std::cin >> firstName;
+        std::cout << "Введите фамилию сотрудника: ";
+        std::cin >> lastName;
+        std::cout << "Введите отчество сотрудника: ";
+        std::cin >> middleName;
+        std::cout << "Введите табельный номер: ";
+        std::cin >> employeeID;
+        std::cout << "Введите количество отработанных часов: ";
+        std::cin >> workedHours;
+        std::cout << "Введите почасовой тариф: ";
+        std::cin >> hourlyRate;
+
+        employees.emplace_back(firstName, lastName, middleName, employeeID, workedHours, hourlyRate);
+    }
+
+    std::cout << "\nИнформация о сотрудниках:\n";
+    for (const Employee &employee : employees) {
+        employee.printInfo();
+        std::cout << "\n";
+    }
+
+    return 0;
+}

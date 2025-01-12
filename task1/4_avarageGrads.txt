@@ -1,0 +1,64 @@
+// Класс для хранения данных о студенте
+class Student {
+private:
+    std::string name; // Имя студента
+    std::vector<double> grades; // Оценки за сессию
+
+public:
+    // Конструктор
+    Student(const std::string &name, const std::vector<double> &grades)
+        : name(name), grades(grades) {}
+
+    // Метод для вычисления среднего балла
+    double calculateAverageGrade() const {
+        if (grades.empty()) return 0.0;
+        double sum = 0.0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        return sum / grades.size();
+    }
+
+    // Метод для вывода информации о студенте
+    void printInfo() const {
+        std::cout << "Имя студента: " << name << '\n';
+        std::cout << "Оценки: ";
+        for (double grade : grades) {
+            std::cout << grade << " ";
+        }
+        std::cout << "\nСредний балл: " << std::fixed << std::setprecision(2) << calculateAverageGrade() << "\n";
+    }
+};
+
+int main() {
+    int numStudents;
+    std::cout << "Введите количество студентов: ";
+    std::cin >> numStudents;
+
+    std::vector<Student> students;
+
+    for (int i = 0; i < numStudents; ++i) {
+        std::string name;
+        int numExams;
+        std::cout << "\nВведите имя студента: ";
+        std::cin >> name;
+        std::cout << "Введите количество экзаменов: ";
+        std::cin >> numExams;
+
+        std::vector<double> grades(numExams);
+        std::cout << "Введите оценки: ";
+        for (int j = 0; j < numExams; ++j) {
+            std::cin >> grades[j];
+        }
+
+        students.emplace_back(name, grades);
+    }
+
+    std::cout << "\nИнформация о студентах:\n";
+    for (const Student &student : students) {
+        student.printInfo();
+        std::cout << "\n";
+    }
+
+    return 0;
+}

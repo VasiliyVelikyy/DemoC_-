@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Константа для перевода угла в радианы
+const double PI = 3.14159265358979323846;
+
+// Структура для представления точки в декартовой системе координат
+struct Point {
+    double x, y;
+    
+    // Конструктор точки
+    Point(double x0, double y0) : x(x0), y(y0) {}
+};
+
+// Класс Triangle (Треугольник)
+class Triangle {
+private:
+    Point A, B, C; // Точки треугольника
+
+public:
+    // Конструктор класса, принимающий координаты трех вершин треугольника
+    Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
+        : A(x1, y1), B(x2, y2), C(x3, y3) {}
+
+    // Метод для вывода координат вершин треугольника
+    void display() const {
+        cout << "Вершины треугольника:" << endl;
+        cout << "A(" << A.x << ", " << A.y << ")" << endl;
+        cout << "B(" << B.x << ", " << B.y << ")" << endl;
+        cout << "C(" << C.x << ", " << C.y << ")" << endl;
+    }
+
+    // Метод для вращения треугольника вокруг начала координат на заданный угол (в градусах)
+    void rotate(double angle) {
+        // Переводим угол в радианы
+        double rad = angle * PI / 180.0;
+
+        // Функция для вращения точки на угол rad вокруг начала координат
+        auto rotatePoint = [rad](Point& p) {
+            double newX = p.x * cos(rad) - p.y * sin(rad);
+            double newY = p.x * sin(rad) + p.y * cos(rad);
+            p.x = newX;
+            p.y = newY;
+        };
+
+        // Вращаем все вершины треугольника
+        rotatePoint(A);
+        rotatePoint(B);
+        rotatePoint(C);
+    }
+};
+
+int main() {
+    // Создаем треугольник с вершинами A(1, 0), B(0, 1), C(-1, 0)
+    Triangle t(1, 0, 0, 1, -1, 0);
+
+    // Отображаем исходные координаты вершин треугольника
+    cout << "Исходные координаты:" << endl;
+    t.display();
+
+    // Вращаем треугольник на 90 градусов
+    double angle = 90.0;
+    t.rotate(angle);
+    cout << "\nПосле вращения на " << angle << " градусов:" << endl;
+    t.display();
+
+    return 0;
+}

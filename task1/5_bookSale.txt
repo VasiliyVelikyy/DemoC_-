@@ -1,0 +1,83 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+
+// Класс для хранения данных о продаже
+class Sale {
+private:
+    std::string item; // Название товара
+    double price;     // Цена товара
+
+public:
+    // Конструктор
+    Sale(const std::string &item, double price)
+        : item(item), price(price) {}
+
+    // Метод для получения цены
+    double getPrice() const {
+        return price;
+    }
+
+    // Метод для вывода информации о продаже
+    void printInfo() const {
+        std::cout << "Товар: " << item << ", Цена: " << std::fixed << std::setprecision(2) << price << " руб.\n";
+    }
+};
+
+// Класс для управления продажами
+class SalesManager {
+private:
+    std::vector<Sale> sales; // Список продаж
+
+public:
+    // Метод для добавления продажи
+    void addSale(const std::string &item, double price) {
+        sales.emplace_back(item, price);
+    }
+
+    // Метод для вычисления общей суммы продаж
+    double calculateTotalSales() const {
+        double total = 0.0;
+        for (const Sale &sale : sales) {
+            total += sale.getPrice();
+        }
+        return total;
+    }
+
+    // Метод для вывода всех продаж
+    void printAllSales() const {
+        std::cout << "\nСписок всех продаж:\n";
+        for (const Sale &sale : sales) {
+            sale.printInfo();
+        }
+    }
+};
+
+int main() {
+    SalesManager manager;
+    int numSales;
+
+    std::cout << "Введите количество продаж: ";
+    std::cin >> numSales;
+
+    for (int i = 0; i < numSales; ++i) {
+        std::string item;
+        double price;
+
+        std::cout << "\nВведите название товара: ";
+        std::cin.ignore();
+        std::getline(std::cin, item);
+        std::cout << "Введите цену товара: ";
+        std::cin >> price;
+
+        manager.addSale(item, price);
+    }
+
+    manager.printAllSales();
+
+    double totalSales = manager.calculateTotalSales();
+    std::cout << "\nОбщая сумма продаж: " << std::fixed << std::setprecision(2) << totalSales << " руб.\n";
+
+    return 0;
+}

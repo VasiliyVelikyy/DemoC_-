@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+
+// Структура для хранения данных о книге
+struct Book {
+    std::string title; // Название
+    std::string publisher; // Издательство
+    std::string author; // Автор
+    int pageCount; // Количество страниц
+
+    // Функция-член для вывода названия, издательства и автора
+    void printBasicInfo() const {
+        std::cout << "title: " << title
+                  << ", publisher: " << publisher
+                  << ", author: " << author << '\n';
+    }
+};
+
+// Класс для хранения данных о книге
+class BookClass {
+private:
+    std::string title; // Название
+    std::string publisher; // Издательство
+    std::string author; // Автор
+    int pageCount; // Количество страниц
+
+public:
+    // Конструктор
+    BookClass(const std::string &title, const std::string &publisher, const std::string &author, int pageCount)
+        : title(title), publisher(publisher), author(author), pageCount(pageCount) {}
+
+    // Метод для вывода названия, издательства и автора
+    void printBasicInfo() const {
+        std::cout << "title: " << title
+                  << ", publisher: " << publisher
+                  << ", author: " << author << '\n';
+    }
+};
+
+int main() {
+    // Использование структуры
+    Book book = {"Война и мир", "Эксмо", "Лев Толстой", 1225};
+    std::cout << "Данные о книге (структура):\n";
+    book.printBasicInfo();
+
+    // Использование класса
+    BookClass bookClass("Преступление и наказание", "Азбука", "Федор Достоевский", 671);
+    std::cout << "\nДанные о книге (класс):\n";
+    bookClass.printBasicInfo();
+
+    return 0;
+}
